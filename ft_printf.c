@@ -30,7 +30,7 @@ int	ft_print_specifier(char str, va_list arg)
 	else if (str == '%')
 	{
 		ft_putchar_fd('%', 1);
-		return (-1);
+		count++;
 	}
 	else if (str == 's')
 		count += ft_printstr(arg);
@@ -63,3 +63,4 @@ int	ft_printf(const char *str, ...)
 	va_end(arg);
 	return (count);
 }
+

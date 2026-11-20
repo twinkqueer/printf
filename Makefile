@@ -19,17 +19,17 @@ SRCS = ft_printf.c ft_printhex.c ft_printoctal.c \
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-AR = ar
+AR = ar rcs
 CFLAGS = -Wall -Wextra -Werror -I $(LIBFT_DIR)
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(AR) -rcs $@ $(OBJS)
-	$(AR) -rcs $@ $(LIBFT)
+$(NAME): $(OBJS)
+	cp $(LIBFT) $(NAME)
+	$(AR) $(NAME) $(OBJS)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
@@ -38,12 +38,10 @@ clean:
 	rm -f $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
-fclean:
-	rm -f $(OBJS) $(NAME)
+fclean: clean
+	rm -f $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
-re:
-	$(MAKE) fclean
-	$(MAKE) all
+re: fclean all
 
 .PHONY: all clean fclean re
