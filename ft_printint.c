@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_internal.h"
 
 int	ft_printint(char type, va_list arg)
 {
@@ -22,14 +22,14 @@ int	ft_printint(char type, va_list arg)
 	if (type == 'u')
 	{
 		i = va_arg(arg, unsigned int);
-		ft_putnbr_fd(i, 1);
-		count += ft_strlen(ft_itoa(i));
+		ft_putnbr_fd((unsigned int)i, 1);
+		count += ft_intlen((unsigned int)i, 10);
 	}
 	else
 	{
 		i = va_arg(arg, int);
 		ft_putnbr_fd(i, 1);
-		count += ft_strlen(ft_itoa(i));
+		count += ft_intlen(i, 10);
 	}
 	return (count);
 }

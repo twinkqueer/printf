@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int	ft_print_specifier(char str, va_list arg)
+static int	ft_print_specifier(char str, va_list arg)
 {
 	int	count;
 
@@ -21,8 +21,6 @@ int	ft_print_specifier(char str, va_list arg)
 		count += ft_printint(str, arg);
 	else if (str == 'x' || str == 'X')
 		count += ft_printhex(str, arg);
-	else if (str == 'o')
-		count += ft_printoctal(arg);
 	else if (str == 'c')
 		count += ft_printchar(arg);
 	else if (str == 'p')
@@ -34,6 +32,12 @@ int	ft_print_specifier(char str, va_list arg)
 	}
 	else if (str == 's')
 		count += ft_printstr(arg);
+	else
+	{
+		ft_putchar_fd('%', 1);
+		ft_putchar_fd(str, 1);
+		count += 2;
+	}
 	return (count);
 }
 
@@ -48,19 +52,19 @@ int	ft_printf(const char *str, ...)
 	count = 0;
 	while (*str != '\0')
 	{
-		if (*str == '%')
+		if (*str != '%')
+		{
+			ft_putchar_fd(*str, 1);
+			count++;
+			str++;
+		}
+		else
 		{
 			if (*(++str) == '\0')
 				return (-1);
-			count += ft_print_specifier(*str, arg);
-			if (*str != '\0')
-				str++;
+			count += ft_print_specifier(*str++, arg);
 		}
-		ft_putchar_fd(*str, 1);
-		str++;
-		count++;
 	}
 	va_end(arg);
 	return (count);
 }
-

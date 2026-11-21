@@ -10,21 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_internal.h"
 
 int	ft_printpointer(va_list arg)
 {
-	char			*conv;
 	int				count;
-	unsigned long	i;
+	uintptr_t		i;
 
 	count = 0;
-	i = 0;
 	i = (uintptr_t)va_arg(arg, void *);
-	conv = ft_baseconvert(i, 16, 0);
+	if (i == 0)
+	{
+		count += 5;
+		ft_putstr_fd("(nil)", 1);
+		return (count);
+	}
 	ft_putstr_fd("0x", 1);
 	count += 2;
-	count += ft_strlen(conv);
-	ft_putnbr_fd((uintptr_t)conv, 1);
+	count += ft_printbase(i, 16, 'x');
 	return (count);
 }

@@ -10,14 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_internal.h"
 
 int	ft_printstr(va_list arg)
 {
 	int		count;
 	char	*s;
 
+	count = 0;
 	s = va_arg(arg, char *);
+	if (!s)
+	{
+		ft_putstr_fd("(null)", 1);
+		count += 6;
+		return (count);
+	}
 	count = ft_strlen(s);
 	ft_putstr_fd(s, 1);
 	return (count);
